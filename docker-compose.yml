@@ -1,0 +1,18 @@
+services:
+  xboard-ticket-bot:
+    build: .
+    container_name: xboard-ticket-bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      TZ: ${TIMEZONE:-Asia/Shanghai}
+      STALE_TICKET_FIRST_REMIND_MINUTES: ${STALE_TICKET_FIRST_REMIND_MINUTES:-1}
+      STALE_TICKET_REPEAT_REMIND_MINUTES: ${STALE_TICKET_REPEAT_REMIND_MINUTES:-1}
+      STALE_TICKET_NIGHT_START_HOUR: ${STALE_TICKET_NIGHT_START_HOUR:-0}
+      STALE_TICKET_NIGHT_END_HOUR: ${STALE_TICKET_NIGHT_END_HOUR:-8}
+      STALE_TICKET_NIGHT_REPEAT_MINUTES: ${STALE_TICKET_NIGHT_REPEAT_MINUTES:-60}
+    ports:
+      - "${BOT_PORT:-3000}:${BOT_PORT:-3000}"
+    volumes:
+      - ./data:/data
